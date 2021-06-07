@@ -33,7 +33,7 @@ const item1 = new Item ({
   item: "welcome to my to do list",
 });
 const item2 = new Item ({
-  item: "het the + button to add a new item",
+  item: "hit the + button to add a new item",
 });
 const item3 = new Item ({
   item: "<== Hit this to delete an item",
