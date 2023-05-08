@@ -1,14 +1,26 @@
 const express = require('express');
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
 const mongoose = require('mongoose');
 const app = express();
 const _ = require('lodash');
 const path = require('path');
+const cors = require("cors");
+
+dotenv.config();
+
+const corsOpts = {
+  origin: '*',
+  methods: [
+      'POST'
+  ]
+};
+
+app.use(cors(corsOpts));
+
 let port = process.env.PORT;
 
-
-
-app.use (bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
@@ -23,7 +35,9 @@ let options = {
 
 let day = today.toLocaleString("en-US",options);
 
-mongoose.connect("mongodb+srv://database-vomi:test123@cluster0.fj3dr.mongodb.net/todolistDB",{useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(`${process.env.MONGO_URL}`, { useUnifiedTopology: true, useNewUrlParser: true }, () => {
+  console.log("connected to DB");
+});
 
 const itemsSchema = new mongoose.Schema ({
   item : String
